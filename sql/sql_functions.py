@@ -19,4 +19,4 @@ def get_department_list():
     session.close()
     return [(d.name,d.id) for d in ret]
 
-print(get_department_list())
+# print(get_department_list())
