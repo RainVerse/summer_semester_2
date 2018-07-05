@@ -3,7 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 
 Base = declarative_base()
-metadata = Base.metadata
 
 
 class DDepartment(Base):
@@ -74,5 +73,5 @@ class DUser(Base):
 from CONFIG import config
 
 connect = create_engine(
-    'mysql+pymysql://' + config.DATABASE_USER + ':' + config.DATABASE_PASSWORD + '@' + config.DATABASE_HOST + ':' + str(config.DATABASE_PORT) + '/' + config.DATABASE_NAME,
-    encoding='utf-8')
+    'mysql+mysqlconnector://' + config.DATABASE_USER + ':' + config.DATABASE_PASSWORD + '@' + config.DATABASE_HOST + ':' + str(
+        config.DATABASE_PORT) + '/' + config.DATABASE_NAME + '?charset='+config.DATABASE_ENCODING)
