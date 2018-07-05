@@ -17,6 +17,6 @@ def get_department_list():
     session = session_class()
     ret = session.query(DDepartment).all()
     session.close()
-    return [d.name for d in ret]
+    return [(d.name,d.id) for d in ret]
 
 print(get_department_list())
