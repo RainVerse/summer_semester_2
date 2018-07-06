@@ -3,9 +3,9 @@
 
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
-                             QPushButton, QVBoxLayout, QLabel,
-                             QHBoxLayout, QLineEdit, QGridLayout,
-                             QSplitter, QFrame, QCheckBox,QRadioButton)
+                             QPushButton,  QLabel,QHBoxLayout,
+                             QLineEdit, QGridLayout,QSplitter,
+                             QFrame, QCheckBox,QRadioButton)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
@@ -35,7 +35,7 @@ class MedicalRecord(QWidget):
         gridinformation.setSpacing(10)
         # 病人基本信息网格，行距1个字距
 
-        title = QLabel('                                    电子病历', self)
+        title = QLabel('                                  电子病历', self)
         title.setFont(QFont("Microsoft YaHei", 18, QFont.Bold))
         # title.move(235, 15)
         gridinformation.addWidget(title, 0, 0)
@@ -83,13 +83,13 @@ class MedicalRecord(QWidget):
         gridinformation2 = QGridLayout()
         gridinformation2.setSpacing(1)
 
-        string = '  症       状: 面色苍白、四肢无力、头昏眼花、有时伴有轻微呕吐感'
+        string = '症       状: 面色苍白、四肢无力、头昏眼花、有时伴有轻微呕吐感'
         symptom = QLabel(string, self)
         symptom.setWordWrap(True)
         symptom.setFont(QFont("Microsoft YaHei", 11))
         gridinformation2.addWidget(symptom, 4, 0, 4, 2)
 
-        string = '  病情结论: 患者具有低血糖症状,并伴随轻微的发烧'
+        string = '病情结论: 患者具有低血糖症状,并伴随轻微的发烧'
         conclusion = QLabel(string, self)
         conclusion.setWordWrap(True)
         conclusion.setFont(QFont("Microsoft YaHei", 11))
@@ -144,6 +144,7 @@ class MedicalRecord(QWidget):
         # 网格布局排列结束
 
         self.setGeometry(0, 0, 570, 650)
+        self.setFixedSize(610,650)
         self.center()
         # 窗口居中显示
         self.setWindowTitle('电子病历')
@@ -158,5 +159,5 @@ class MedicalRecord(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = MedicalRecord()
+    MR = MedicalRecord()
     sys.exit(app.exec_())
