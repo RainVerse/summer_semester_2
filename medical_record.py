@@ -5,9 +5,9 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
                              QPushButton, QVBoxLayout, QLabel,
                              QHBoxLayout, QLineEdit, QGridLayout,
-                             QSplitter, QFrame, QCheckBox)
+                             QSplitter, QFrame, QCheckBox,QRadioButton)
 from PyQt5.QtGui import QFont
-
+from PyQt5.QtCore import Qt
 
 class MedicalRecord(QWidget):
 
@@ -110,13 +110,18 @@ class MedicalRecord(QWidget):
         signprompt.setFont(QFont("Microsoft YaHei", 11))
         gridsign.addWidget(signprompt, 0, 0)
 
-        Syes = QCheckBox('是', self)
-        gridsign.addWidget(Syes, 1, 1)
-        #Syes.move(200, 434)
-        #cb.stateChanged.connect(self.changeTitle)复选框被选中触发事件
-        Sno = QCheckBox('否', self)
-        #Sno.move(20, 20)
-        gridsign.addWidget(Sno, 1, 2)
+        yes = QRadioButton('是', self)
+        yes.setFocusPolicy(Qt.NoFocus)
+        yes.toggle()
+        #yes.toggled.connect(self.changeButton)
+
+        no = QRadioButton('否', self)
+        no.setFocusPolicy(Qt.NoFocus)
+        no.toggle()
+        #no.toggled.connect(self.changeButton) 单选框触发事件
+        gridsign.addWidget(yes, 1, 1)
+        gridsign.addWidget(no, 1, 2)
+        #单选框网格布局
 
         Sign = QLabel('         电子签名：', self)
         Sign.setFont(QFont("Microsoft YaHei", 14, QFont.Bold))
