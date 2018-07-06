@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QCoreApplication
 from service.RegisterService import RegisterService
+from sql.sql_functions import get_department_list
 
 class Register(QWidget):
 
@@ -36,9 +37,12 @@ class Register(QWidget):
 
         self.genderEdit.addItem('男',0)
         self.genderEdit.addItem('女',1)
-        self.departmentEdit.addItem('内科',0)
-        self.departmentEdit.addItem('外科', 1)
-        self. departmentEdit.addItem('急诊科', 2)
+
+        self.departmentlist = get_department_list()
+        for d in self.departmentlist:
+            print(d)
+            self.departmentEdit.addItem(d[0])
+
 
         form = QFormLayout()
         form.addRow(user,self.userEdit)
@@ -92,7 +96,7 @@ class Register(QWidget):
         source = self.sender()
         regService = RegisterService()
 
-        userInfo = [self.nameEdit.text(), self.departmentEdit.currentIndex(), self.genderEdit.currentIndex(), self.ageEdit.text()]
+        userInfo = [self.nameEdit.text(), self.departmentlist[self.departmentEdit.currentIndex()][1], self.genderEdit.currentIndex() + 1, self.ageEdit.text()]
         regService.register(self.userEdit.text(), self.pwEdit.text(), userInfo)
 
 
