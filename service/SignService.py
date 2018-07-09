@@ -52,9 +52,35 @@ class SignService:
             session.close()
             return False,'数据库错误'
 
+    def validate(self, record_id,updated_data):
+        session = session_class()
+        digital_sign = session.query(DDigitalSign).filter_by(record_id=record_id).first()
+        if digital_sign is None:
+            session.close()
+            return False, '该病历未被签名'
+        user = session.query(DUser).filter_by(id=digital_sign.doctor_id).first()
+        if user is None:
+            session.close()
+            return False, '用户不存在'
+        info = session.query(DDoctorInfo).filter_by(id=user.doctor_info_id).first()
+        if user is None:
+            session.close()
+            return False, '用户信息不存在'
+        private_key = session.query(DPrivateKey).filter_by(id=info.private_key_id).first()
+        if private_key is None:
+            session.close()
+            return False, '用户密钥不存在'
+        record = session.query(DMedicalRecord).filter_by(id=record_id).first()
+        if record is None:
+            session.close()
+            return False, '病历不存在'
+        session.close()
+        hashed_text = SHA256.new(updated_data.encode('utf-8')).digest()
+        key = DSA.construct(
+            (int(private_key.key_y), int(private_key.key_g), int(private_key.key_p), int(private_key.key_q),
+             int(private_key.key_x)))
+        ret=key.verify(hashed_text, (int(digital_sign.sign_1),int(digital_sign.sign_2)))
+        return True,ret
 
-def validate(self):
-    return False
-
-
-print(SignService().sign(3, 1))
+print(SignService().sign(3,1))
+print(SignService().validate(1,'222'))

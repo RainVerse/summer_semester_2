@@ -20,13 +20,11 @@ class RecordService:
                 session.commit()
             except:
                 session.rollback()
-                print('数据库错误！')
                 session.close()
-                return False
+                return False,'数据库错误'
             session.close()
-            return True
-        print('用户病历已存在')
-        return False
+            return True,'添加病历成功'
+        return False,'用户病历已存在'
 
     @staticmethod
     def get_record_data(name):
@@ -75,4 +73,4 @@ class RecordService:
 # print(RecordService().add_record(
 #     {'name': 'cm', 'company': '419', 'gender': 1, 'address': 'ssdut419', 'age': 21, 'department_id': 1, 'nation': '汉族',
 #      'symptom': '智障', 'conclusion': '没救了'}))
-# print(RecordService().get_record_data('cm'))
+# print(RecordService().get_record_data('caomai2'))
