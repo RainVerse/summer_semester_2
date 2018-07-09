@@ -82,5 +82,5 @@ class SignService:
         ret=key.verify(hashed_text, (int(digital_sign.sign_1),int(digital_sign.sign_2)))
         return True,ret
 
-print(SignService().sign(3,1))
-print(SignService().validate(1,'222'))
+# print(SignService().sign(3,1))
+# print(SignService().validate(1,'222'))
