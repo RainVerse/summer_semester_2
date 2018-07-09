@@ -13,16 +13,6 @@ class AddMedicalRecord(QWidget):
 
     def __init__(self):
         super().__init__()
-
-        '''self.addName()
-        self.addGender()
-        self.addAge()
-        self.addAddress()
-        self.addCompany()
-        self.addDate()
-        self.addDepartment()
-        self.addNation()'''
-
         self.initUI()
 
     def initUI(self):
@@ -41,7 +31,7 @@ class AddMedicalRecord(QWidget):
         gridinformation.addWidget(name, 2, 0)
         nameEdit = QLineEdit()
         gridinformation.addWidget(nameEdit, 2, 1)
-        #nameEdit.text()
+        str = nameEdit.text()
 
         string = '性       别：'
         gender = QLabel(string, self)
@@ -117,10 +107,10 @@ class AddMedicalRecord(QWidget):
         gridinformation.addWidget(conclusionEdit, 14, 1, 2, 1)
 
 
-        okButton = QPushButton('添加')
-        okButton.setFixedSize(60,30)
-        #okButton.resize(okButton.sizeHint())
-        gridinformation.addWidget(okButton, 16, 1)
+        addButton = QPushButton('添加',self)
+        addButton.setFixedSize(60,30)
+        addButton.clicked.connect(self.printstr)
+        gridinformation.addWidget(addButton, 16, 1)
 
         self.setLayout(gridinformation)
         # 网格布局排列结束
@@ -132,11 +122,15 @@ class AddMedicalRecord(QWidget):
         self.setWindowTitle('添加电子病历')
         self.show()
 
+    def printstr(self):
+        print("button")
+
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
 
 
 if __name__ == '__main__':

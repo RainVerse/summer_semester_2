@@ -8,21 +8,12 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
                              QFrame, QCheckBox,QRadioButton)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
+from sql.sql_functions import get_department_list
 
 class MedicalRecord(QWidget):
 
     def __init__(self):
         super().__init__()
-
-        '''self.addName()
-        self.addGender()
-        self.addAge()
-        self.addAddress()
-        self.addCompany()
-        self.addDate()
-        self.addDepartment()
-        self.addNation()'''
-
         self.initUI()
 
     def initUI(self):
@@ -160,4 +151,6 @@ class MedicalRecord(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     MR = MedicalRecord()
+    str = get_department_list()
+
     sys.exit(app.exec_())
