@@ -15,7 +15,7 @@ class LoginService:
             salt = user.salt
             e_pwd = user.pwd
             if SHA256.new((password + salt).encode("utf8")).hexdigest() == e_pwd:
-                ret = True, '登陆成功'
+                ret = True, user.id
             else:
                 ret = False, '用户名或密码错误！'
         session.close()

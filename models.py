@@ -30,7 +30,7 @@ class DDoctorInfo(Base):
     department_id = Column(Integer, nullable=False)
     gender = Column(Integer, server_default=text("'0'"))
     age = Column(Integer)
-    priviate_key_id = Column(Integer, nullable=False)
+    private_key_id = Column(Integer, nullable=False)
 
 
 class DMedicalRecord(Base):

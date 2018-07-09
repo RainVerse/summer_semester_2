@@ -13,18 +13,18 @@ k = random.StrongRandom().randint(1, key.q-1)
 sig = key.sign(h, k)
 print(len(str(sig[0])),len(str(sig[1])))
 
-print(len(str(key.__getattr__('y'))))
-print(len(str(key.__getattr__('y'))))
-print(len(str(key.__getattr__('y'))))
-print(len(str(key.__getattr__('y'))))
-print(len(str(key.__getattr__('y'))))
+print(len(str(key.y)))
+print(len(str(key.g)))
+print(len(str(key.p)))
+print(len(str(key.q)))
+print(len(str(key.x)))
 
 
-y=int(str(key.__getattr__('y')))
-g=int(str(key.__getattr__('g')))
-p=int(str(key.__getattr__('p')))
-q=int(str(key.__getattr__('q')))
-x=int(str(key.__getattr__('x')))
+y=int(str(key.y))
+g=int(str(key.g))
+p=int(str(key.p))
+q=int(str(key.q))
+x=int(str(key.x))
 
 if DSA.construct((y,g,p,q,x)).verify(h, sig):
     print('OK')

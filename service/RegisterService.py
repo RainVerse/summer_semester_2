@@ -12,11 +12,11 @@ class RegisterService:
     @staticmethod
     def private_key_generate():
         key = DSA.generate(1024)
-        y = str(key.__getattr__('y'))
-        g = str(key.__getattr__('g'))
-        p = str(key.__getattr__('p'))
-        q = str(key.__getattr__('q'))
-        x = str(key.__getattr__('x'))
+        y = str(key.y)
+        g = str(key.g)
+        p = str(key.p)
+        q = str(key.q)
+        x = str(key.x)
         next_id = get_next_id('d_private_key')
         return [y, g, p, q, x], next_id
 
@@ -30,7 +30,7 @@ class RegisterService:
             key_data = DPrivateKey(key_y=key[0], key_g=key[1], key_p=key[2], key_q=key[3], key_x=key[4])
             user_data = DUser(username=username, salt=salt, pwd=pwd, doctor_info_id=get_next_id('d_doctor_info'))
             info_data = DDoctorInfo(name=doctor_info[0], department_id=doctor_info[1], gender=doctor_info[2],
-                                    age=doctor_info[3], priviate_key_id=key_id)
+                                    age=doctor_info[3], private_key_id=key_id)
             try:
                 session.add(key_data)
                 session.flush()

@@ -54,14 +54,24 @@ class RecordService:
                 session.close()
                 return None
         session.close()
-        data = {'name': record.r_name, 'company': record.company, 'gender': record.gender, 'address': record.address,
+        data = {'id': record.id, 'name': record.r_name, 'company': record.company, 'gender': record.gender,
+                'address': record.address,
                 'age': record.age, 'department': department, 'nation': record.nation, 'symptom': record.symptom,
                 'date': str(record.r_date.year) + '.' + str(record.r_date.month) + '.' + str(record.r_date.day),
                 'conclusion': record.conclusion, 'sign': sign_doctor}
         return data
 
-    def edit_record_data(self):
+    def edit_record_data(self, record_info):
+
+        session = session_class()
+        record = session.query(DMedicalRecord).filter_by(r_name=record_info.get('name')).first()
+        if record is None:
+            session.close()
+            return False
+
+        session.close()
         return False
+
 # print(RecordService().add_record(
 #     {'name': 'cm', 'company': '419', 'gender': 1, 'address': 'ssdut419', 'age': 21, 'department_id': 1, 'nation': '汉族',
 #      'symptom': '智障', 'conclusion': '没救了'}))
