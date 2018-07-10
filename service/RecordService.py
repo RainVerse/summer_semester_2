@@ -1,6 +1,7 @@
 from sqlalchemy.orm import sessionmaker
-from models import connect, DMedicalRecord, DDigitalSign, DDoctorInfo
+from models import connect, DMedicalRecord, DDigitalSign, DDoctorInfo,DUser
 from sql.sql_functions import get_department_list
+from service.SignService import SignService
 
 session_class = sessionmaker(bind=connect)
 
@@ -21,10 +22,10 @@ class RecordService:
             except:
                 session.rollback()
                 session.close()
-                return False,'数据库错误'
+                return False, '数据库错误'
             session.close()
-            return True,'添加病历成功'
-        return False,'用户病历已存在'
+            return True, '添加病历成功'
+        return False, '用户病历已存在'
 
     @staticmethod
     def get_record_data(name):
@@ -44,7 +45,11 @@ class RecordService:
         sign = session.query(DDigitalSign).filter_by(record_id=record.id).first()
         sign_doctor = None
         if sign is not None:
-            doctor_info = session.query(DDoctorInfo).filter_by(id=sign.doctor_id).first()
+            user = session.query(DUser).filter_by(id=sign.doctor_id).first()
+            if user is None:
+                session.close()
+                return None
+            doctor_info=session.query(DDoctorInfo).filter_by(id=user.doctor_info_id).first()
             if doctor_info is not None:
                 sign_doctor = doctor_info.name
             else:
@@ -59,18 +64,42 @@ class RecordService:
                 'conclusion': record.conclusion, 'sign': sign_doctor}
         return data
 
-    def edit_record_data(self, record_info):
-
+    def update_record_data(self, user_id, record_id, updated_record_info):
         session = session_class()
-        record = session.query(DMedicalRecord).filter_by(r_name=record_info.get('name')).first()
+        record = session.query(DMedicalRecord).filter_by(id=record_id).first()
         if record is None:
             session.close()
-            return False
+            return False, '病历不存在'
+        is_signed = session.query(DDigitalSign).filter_by(record_id=record_id).first() is not None
+        if not is_signed:
+            record.symptom = updated_record_info.get('symptom')
+            record.conclusion = updated_record_info.get('conclusion')
+            try:
+                session.commit()
+                session.close()
+                return True, '修改成功'
+            except:
+                session.rollback()
+                session.close()
+                return False, '数据库错误'
+        else:
+            session.close()
+            updated_data = str(record.id) + record.r_name + record.company + str(record.gender) + record.address + str(
+                record.age) + str(record.department_id) + record.nation + updated_record_info.get('symptom') + str(
+                record.r_date.year) + '.' + str(record.r_date.month) + '.' + str(
+                record.r_date.day) + updated_record_info.get('conclusion')
+            state, result = SignService().validate(user_id, record_id, updated_data)
+            if not state:
+                return False, result
+            else:
+                if result:
+                    return True, '验证通过，然而并没有修改'
+                else:
+                    return False, '验证失败，修改失败'
 
-        session.close()
-        return False
 
 # print(RecordService().add_record(
 #     {'name': 'cm', 'company': '419', 'gender': 1, 'address': 'ssdut419', 'age': 21, 'department_id': 1, 'nation': '汉族',
 #      'symptom': '智障', 'conclusion': '没救了'}))
-# print(RecordService().get_record_data('caomai2'))
+# print(RecordService().get_record_data('曹迈'))
+print(RecordService().update_record_data(3, 1, {'symptom': '智障', 'conclusion': '没救了'}))
