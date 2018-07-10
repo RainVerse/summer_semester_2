@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from models import connect, DMedicalRecord, DDigitalSign, DDoctorInfo,DUser
+from models import connect, DMedicalRecord, DDigitalSign, DDoctorInfo, DUser
 from sql.sql_functions import get_department_list
 from service.SignService import SignService
 
@@ -49,7 +49,7 @@ class RecordService:
             if user is None:
                 session.close()
                 return None
-            doctor_info=session.query(DDoctorInfo).filter_by(id=user.doctor_info_id).first()
+            doctor_info = session.query(DDoctorInfo).filter_by(id=user.doctor_info_id).first()
             if doctor_info is not None:
                 sign_doctor = doctor_info.name
             else:
@@ -57,7 +57,8 @@ class RecordService:
                 session.close()
                 return None
         session.close()
-        data = {'id': record.id, 'name': record.r_name, 'company': record.company, 'gender': record.gender,
+        gender = '男' if record.gender == 1 else '女' if record.gender == 2 else '未知'
+        data = {'id': record.id, 'name': record.r_name, 'company': record.company, 'gender': gender,
                 'address': record.address,
                 'age': record.age, 'department': department, 'nation': record.nation, 'symptom': record.symptom,
                 'date': str(record.r_date.year) + '.' + str(record.r_date.month) + '.' + str(record.r_date.day),
@@ -96,7 +97,6 @@ class RecordService:
                     return True, '验证通过，然而并没有修改'
                 else:
                     return False, '验证失败，修改失败'
-
 
 # print(RecordService().add_record(
 #     {'name': 'cm', 'company': '419', 'gender': 1, 'address': 'ssdut419', 'age': 21, 'department_id': 1, 'nation': '汉族',
