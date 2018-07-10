@@ -8,12 +8,13 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
                              QFrame, QCheckBox,QRadioButton)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-from sql.sql_functions import get_department_list
+from service.RecordService import RecordService
 
 class MedicalRecord(QWidget):
 
-    def __init__(self):
+    def __init__(self , name):
         super().__init__()
+        self.data = RecordService().get_record_data(name)
         self.initUI()
 
     def initUI(self):
@@ -31,42 +32,42 @@ class MedicalRecord(QWidget):
         # title.move(235, 15)
         gridinformation.addWidget(title, 0, 0)
 
-        string = '  姓名： '
+        string = '  姓名： '+ self.data.get('name')
         name = QLabel(string, self)
         name.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(name, 1, 0)
 
-        string = '工作单位: '
+        string = '工作单位: ' + self.data.get('company')
         company = QLabel(string, self)
         company.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(company, 1, 1)
 
-        string = '  性别: '
+        string = '  性别: ' + self.data.get('gender')
         gender = QLabel(string, self)
         gender.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(gender, 2, 0)
 
-        string = '住       址: 深圳市猛虎区建安路55号'
+        string = '住       址: ' + self.data.get('address')
         address = QLabel(string, self)
         address.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(address, 2, 1)
 
-        string = '  年龄: '
+        string = '  年龄: ' + self.data.get('age')
         age = QLabel(string, self)
         age.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(age, 3, 0)
 
-        string = '科       室: '
+        string = '科       室: ' + self.data.get('department')
         department = QLabel(string, self)
         department.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(department, 3, 1)
 
-        string = '  民族: '
+        string = '  民族: ' + self.data.get('nation')
         nation = QLabel(string, self)
         nation.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(nation, 4, 0, )
 
-        string = '日       期: '
+        string = '日       期: ' + self.data.get('data')
         date = QLabel(string, self)
         date.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(date, 4, 1,)
@@ -74,13 +75,13 @@ class MedicalRecord(QWidget):
         gridinformation2 = QGridLayout()
         gridinformation2.setSpacing(1)
 
-        string = '症       状: 面色苍白、四肢无力、头昏眼花、有时伴有轻微呕吐感'
+        string = '症       状: ' + self.data.get('symptom')
         symptom = QLabel(string, self)
         symptom.setWordWrap(True)
         symptom.setFont(QFont("Microsoft YaHei", 11))
         gridinformation2.addWidget(symptom, 4, 0, 4, 2)
 
-        string = '病情结论: 患者具有低血糖症状,并伴随轻微的发烧'
+        string = '病情结论: ' + self.data.get('conclusion')
         conclusion = QLabel(string, self)
         conclusion.setWordWrap(True)
         conclusion.setFont(QFont("Microsoft YaHei", 11))
@@ -150,7 +151,5 @@ class MedicalRecord(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    MR = MedicalRecord()
-    str = get_department_list()
-
+    MR = MedicalRecord('曹迈')
     sys.exit(app.exec_())
