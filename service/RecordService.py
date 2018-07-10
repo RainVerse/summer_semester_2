@@ -102,4 +102,4 @@ class RecordService:
 #     {'name': 'cm', 'company': '419', 'gender': 1, 'address': 'ssdut419', 'age': 21, 'department_id': 1, 'nation': '汉族',
 #      'symptom': '智障', 'conclusion': '没救了'}))
 # print(RecordService().get_record_data('曹迈'))
-print(RecordService().update_record_data(3, 1, {'symptom': '智障', 'conclusion': '没救了'}))
+# print(RecordService().update_record_data(3, 1, {'symptom': '智障', 'conclusion': '没救了'}))
