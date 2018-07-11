@@ -7,7 +7,8 @@ session_class = sessionmaker(bind=connect)
 
 
 class RecordService:
-    def add_record(self, record_info):
+    @staticmethod
+    def add_record(record_info):
         session = session_class()
         record = session.query(DMedicalRecord).filter_by(r_name=record_info.get('name')).first()
         if record is None:
@@ -60,12 +61,13 @@ class RecordService:
         gender = '男' if record.gender == 1 else '女' if record.gender == 2 else '未知'
         data = {'id': record.id, 'name': record.r_name, 'company': record.company, 'gender': gender,
                 'address': record.address,
-                'age': record.age, 'department': department, 'nation': record.nation, 'symptom': record.symptom,
+                'age': str(record.age), 'department': department, 'nation': record.nation, 'symptom': record.symptom,
                 'date': str(record.r_date.year) + '.' + str(record.r_date.month) + '.' + str(record.r_date.day),
                 'conclusion': record.conclusion, 'sign': sign_doctor}
         return data
 
-    def update_record_data(self, user_id, record_id, updated_record_info):
+    @staticmethod
+    def update_record_data(user_id, record_id, updated_record_info):
         session = session_class()
         record = session.query(DMedicalRecord).filter_by(id=record_id).first()
         if record is None:
@@ -102,4 +104,5 @@ class RecordService:
 #     {'name': 'cm', 'company': '419', 'gender': 1, 'address': 'ssdut419', 'age': 21, 'department_id': 1, 'nation': '汉族',
 #      'symptom': '智障', 'conclusion': '没救了'}))
 # print(RecordService().get_record_data('曹迈'))
-# print(RecordService().update_record_data(3, 1, {'symptom': '智障', 'conclusion': '没救了'}))
+# print(RecordService().update_record_data(3, 3, {'symptom': '神经衰弱',
+#                                                 'conclusion': '没救了，建议在家等死,没救了，建议在家等死,没救了，建议在家等死,没救了，建议在家等死'}))

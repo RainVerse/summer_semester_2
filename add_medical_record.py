@@ -105,7 +105,6 @@ class AddMedicalRecord(QWidget):
         self.center()
         # 窗口居中显示
         self.setWindowTitle('添加电子病历')
-        self.show()
 
     def commit(self):
         self.data['name'] = self.nameEdit.text()

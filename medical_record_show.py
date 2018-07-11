@@ -3,16 +3,17 @@
 
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
-                             QPushButton,  QLabel,QHBoxLayout,
-                             QLineEdit, QGridLayout,QSplitter,
-                             QFrame, QCheckBox,QRadioButton)
+                             QPushButton, QLabel, QHBoxLayout,
+                             QLineEdit, QGridLayout, QSplitter,
+                             QFrame, QCheckBox, QRadioButton)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from service.RecordService import RecordService
 
+
 class MedicalRecord(QWidget):
 
-    def __init__(self , name):
+    def __init__(self, name):
         super().__init__()
         self.data = RecordService().get_record_data(name)
         self.initUI()
@@ -21,7 +22,6 @@ class MedicalRecord(QWidget):
         grid = QGridLayout()
         grid.setSpacing(1)
         # 外层网格
-
 
         gridinformation = QGridLayout()
         gridinformation.setSpacing(10)
@@ -32,7 +32,7 @@ class MedicalRecord(QWidget):
         # title.move(235, 15)
         gridinformation.addWidget(title, 0, 0)
 
-        string = '  姓名： '+ self.data.get('name')
+        string = '  姓名: ' + self.data.get('name')
         name = QLabel(string, self)
         name.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(name, 1, 0)
@@ -67,10 +67,10 @@ class MedicalRecord(QWidget):
         nation.setFont(QFont("Microsoft YaHei", 11))
         gridinformation.addWidget(nation, 4, 0, )
 
-        string = '日       期: ' + self.data.get('data')
+        string = '日       期: ' + self.data.get('date')
         date = QLabel(string, self)
         date.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(date, 4, 1,)
+        gridinformation.addWidget(date, 4, 1, )
 
         gridinformation2 = QGridLayout()
         gridinformation2.setSpacing(1)
@@ -95,7 +95,7 @@ class MedicalRecord(QWidget):
         signframe.setFrameShape(QFrame.StyledPanel)
         signframe.move(20, 420)
         signframe.resize(575, 180)
-        #分隔框
+        # 分隔框
 
         string = '          是否电子签名，若进行电子签名，病历便不能修改'
         signprompt = QLabel(string, self)
@@ -105,15 +105,15 @@ class MedicalRecord(QWidget):
         yes = QRadioButton('是', self)
         yes.setFocusPolicy(Qt.NoFocus)
         yes.toggle()
-        #yes.toggled.connect(self.changeButton)
+        # yes.toggled.connect(self.changeButton)
 
         no = QRadioButton('否', self)
         no.setFocusPolicy(Qt.NoFocus)
         no.toggle()
-        #no.toggled.connect(self.changeButton) 单选框触发事件
+        # no.toggled.connect(self.changeButton) 单选框触发事件
         gridsign.addWidget(yes, 1, 1)
         gridsign.addWidget(no, 1, 2)
-        #单选框网格布局
+        # 单选框网格布局
 
         Sign = QLabel('         电子签名：', self)
         Sign.setFont(QFont("Microsoft YaHei", 14, QFont.Bold))
@@ -122,8 +122,8 @@ class MedicalRecord(QWidget):
         gridbutton = QGridLayout()
         gridbutton.setSpacing(1)
         okButton = QPushButton('提交')
-        okButton.setFixedSize(60,30)
-        #okButton.resize(okButton.sizeHint())
+        okButton.setFixedSize(60, 30)
+        # okButton.resize(okButton.sizeHint())
         gridbutton.addWidget(okButton, 0, 2)
 
         # button网格布局
@@ -136,7 +136,7 @@ class MedicalRecord(QWidget):
         # 网格布局排列结束
 
         self.setGeometry(0, 0, 570, 650)
-        self.setFixedSize(610,650)
+        self.setFixedSize(610, 650)
         self.center()
         # 窗口居中显示
         self.setWindowTitle('电子病历')
@@ -151,5 +151,5 @@ class MedicalRecord(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    MR = MedicalRecord('曹迈')
+    MR = MedicalRecord('caomai2')
     sys.exit(app.exec_())
