@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 
-class InfoWindow(QWidget):
+class InfoWindowWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()

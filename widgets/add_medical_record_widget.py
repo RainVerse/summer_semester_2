@@ -1,12 +1,11 @@
-import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget, QPushButton, QLabel, QLineEdit, QGridLayout,
+from PyQt5.QtWidgets import (QWidget, QDesktopWidget, QPushButton, QLabel, QLineEdit, QGridLayout,
                              QTextEdit, QComboBox)
 from PyQt5.QtGui import QFont
 from sql.sql_functions import get_department_list
 from service.RecordService import RecordService
 
 
-class AddMedicalRecord(QWidget):
+class AddMedicalRecordWidget(QWidget):
 
     def __init__(self):
         super().__init__()

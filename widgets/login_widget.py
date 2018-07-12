@@ -4,8 +4,9 @@ from PyQt5.QtCore import *
 from service.LoginService import LoginService
 
 
-class Login(QWidget):
+class LoginWidget(QWidget):
     signal_login = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -24,9 +25,8 @@ class Login(QWidget):
         self.pwEdit.setEchoMode(2)
 
         form = QFormLayout()
-        form.addRow(user,self.userEdit)
-        form.addRow(password,self.pwEdit)
-
+        form.addRow(user, self.userEdit)
+        form.addRow(password, self.pwEdit)
 
         vbox = QVBoxLayout()
         vbox.addWidget(msgLabel)
@@ -34,13 +34,13 @@ class Login(QWidget):
         vbox.addLayout(form)
         vbox.addSpacing(10)
 
-        btn = QPushButton('登录',self)
+        btn = QPushButton('登录', self)
         btn.resize(btn.sizeHint())
         btn.clicked.connect(self.checkInfo)
 
-        self.regbtn = QPushButton('注册',self)
+        self.regbtn = QPushButton('注册', self)
         self.regbtn.resize(self.regbtn.sizeHint())
-        #self.regbtn.clicked.connect(self.regist)
+        # self.regbtn.clicked.connect(self.regist)
 
         cancelbtn = QPushButton('退出')
         cancelbtn.resize((cancelbtn.sizeHint()))
@@ -58,27 +58,26 @@ class Login(QWidget):
 
         self.setLayout(vbox)
 
-        self.resize(350,400)
+        self.resize(350, 400)
         self.center()
         self.setWindowTitle('登录')
 
-
-    #放置在屏幕中心
+    # 放置在屏幕中心
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    #def regist(self):
-        #reg = Register()
-        #reg.show()
+    # def regist(self):
+    # reg = Register()
+    # reg.show()
 
     def checkInfo(self):
         ls = LoginService()
         check = ls.login(self.userEdit.text(), self.pwEdit.text())
 
-        if(check[0]):
+        if (check[0]):
             print("Log in succeed")
             self.message = "登录成功"
             self.hide()
@@ -88,14 +87,10 @@ class Login(QWidget):
             self.message = check[1]
             QMessageBox.information(self, "提示", self.message)
 
-
-
-#if __name__ == '__main__':
+# if __name__ == '__main__':
 #    app = QApplication(sys.argv)
 #    lgin = Login()
 #    lgin.show()
 
 
- #   sys.exit(app.exec_())
-
-
+#   sys.exit(app.exec_())

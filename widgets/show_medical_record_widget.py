@@ -1,21 +1,13 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget,
-                             QPushButton, QLabel, QHBoxLayout,
-                             QLineEdit, QGridLayout, QSplitter,
-                             QFrame, QCheckBox, QRadioButton)
+from PyQt5.QtWidgets import (QWidget, QDesktopWidget, QPushButton, QLabel, QGridLayout, QFrame, QRadioButton)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from service.RecordService import RecordService
 
 
-class MedicalRecord(QWidget):
+class ShowMedicalRecordWidget(QWidget):
 
-    def __init__(self, name):
+    def __init__(self):
         super().__init__()
-        self.data = RecordService().get_record_data(name)
         self.initUI()
 
     def initUI(self):
@@ -32,42 +24,42 @@ class MedicalRecord(QWidget):
         # title.move(235, 15)
         self.gridinformation.addWidget(self.title, 0, 0)
 
-        string = '  姓名: ' + self.data.get('name')
+        string = '  姓名: '
         self.name = QLabel(string, self)
         self.name.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.name, 1, 0)
 
-        string = '工作单位: ' + self.data.get('company')
+        string = '工作单位: '
         self.company = QLabel(string, self)
         self.company.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.company, 1, 1)
 
-        string = '  性别: ' + self.data.get('gender')
+        string = '  性别: '
         self.gender = QLabel(string, self)
         self.gender.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.gender, 2, 0)
 
-        string = '住       址: ' + self.data.get('address')
+        string = '住       址: '
         self.address = QLabel(string, self)
         self.address.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.address, 2, 1)
 
-        string = '  年龄: ' + self.data.get('age')
+        string = '  年龄: '
         self.age = QLabel(string, self)
         self.age.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.age, 3, 0)
 
-        string = '科       室: ' + self.data.get('department')
+        string = '科       室: '
         self.department = QLabel(string, self)
         self.department.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.department, 3, 1)
 
-        string = '  民族: ' + self.data.get('nation')
+        string = '  民族: '
         self.nation = QLabel(string, self)
         self.nation.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.nation, 4, 0, )
 
-        string = '日       期: ' + self.data.get('date')
+        string = '日       期: '
         self.date = QLabel(string, self)
         self.date.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation.addWidget(self.date, 4, 1, )
@@ -75,13 +67,13 @@ class MedicalRecord(QWidget):
         self.gridinformation2 = QGridLayout()
         self.gridinformation2.setSpacing(1)
 
-        string = '症       状: ' + self.data.get('symptom')
+        string = '症       状: '
         self.symptom = QLabel(string, self)
         self.symptom.setWordWrap(True)
         self.symptom.setFont(QFont("Microsoft YaHei", 11))
         self.gridinformation2.addWidget(self.symptom, 4, 0, 4, 2)
 
-        string = '病情结论: ' + self.data.get('conclusion')
+        string = '病情结论: '
         self.conclusion = QLabel(string, self)
         self.conclusion.setWordWrap(True)
         self.conclusion.setFont(QFont("Microsoft YaHei", 11))
@@ -145,3 +137,20 @@ class MedicalRecord(QWidget):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    def load_data(self,name):
+        self.data = RecordService().get_record_data(name)
+
+    def refresh_data(self):
+        if self.data is None:
+            return
+        self.name.setText('  姓名: ' + self.data.get('name'))
+        self.company.setText('工作单位: ' + self.data.get('company'))
+        self.gender.setText('  性别: ' + self.data.get('gender'))
+        self.age.setText(self.data.get('age'))
+        self.address.setText(self.data.get('address'))
+        self.department.setText(self.data.get('department'))
+        self.nation.setText(self.data.get('nation'))
+        self.date.setText(self.data.get('date'))
+        self.symptom.setText(self.data.get('symptom'))
+        self.conclusion.setText(self.data.get('conclusion'))
