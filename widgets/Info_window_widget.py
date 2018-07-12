@@ -82,8 +82,11 @@ class InfoWindowWidget(QWidget):
         userInfo = [self.nameEdit.text(), self.departmentlist[self.departmentEdit.currentIndex()][1], self.genderEdit.currentIndex() + 1, self.ageEdit.text()]
         if(regService.register(self.username, self.password, userInfo)):
             print("reg succeed")
+            QMessageBox.information(self, "提示", "注册成功")
+            self.hide()
         else:
             QMessageBox.information(self,"提示", "用户已存在")
+            self.hide()
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()

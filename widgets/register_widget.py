@@ -39,7 +39,7 @@ class RegisterWidget(QWidget):
 
         cancelbtn = QPushButton('退出')
         cancelbtn.resize((cancelbtn.sizeHint()))
-        cancelbtn.clicked.connect(QCoreApplication.instance().quit)
+        cancelbtn.clicked.connect(self.hide)
 
         hbox = QHBoxLayout()
         hbox.addStretch(1)
@@ -69,6 +69,7 @@ class RegisterWidget(QWidget):
     def transInfo(self):
         self.signal_user.emit(self.userEdit.text(), self.pwEdit.text())
         print("transInfo from reg")
+        self.hide()
 
     def checkInfo(self):
         print("check info")
