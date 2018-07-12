@@ -15,9 +15,7 @@ class DigitalRecordSystem:
         self.add_medical_record_widget = AddMedicalRecordWidget()
         self.show_medical_record_widget = ShowMedicalRecordWidget()
         self.init_slots()
-
         self.init_connects()
-        # self.init_slots()
         return
 
     def init_slots(self):
