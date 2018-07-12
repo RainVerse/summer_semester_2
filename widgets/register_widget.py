@@ -67,8 +67,8 @@ class RegisterWidget(QWidget):
     # IW = InfoWindow()
     # IW.transInfo(self.userEdit.text(),self.pwEdit.text())
     def transInfo(self):
-        print("transInfo from reg")
         self.signal_user.emit(self.userEdit.text(), self.pwEdit.text())
+        print("transInfo from reg")
 
     def checkInfo(self):
         print("check info")

@@ -5,6 +5,8 @@ from PyQt5.QtCore import *
 
 
 class InfoWindowWidget(QWidget):
+    username = None
+    password = None
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -62,8 +64,8 @@ class InfoWindowWidget(QWidget):
         self.center()
         self.setWindowTitle('提交信息')
 
-        self.tkonbtn.clicked.connect(self.transInfo())
-        cancelbtn.clicked.connect(QCoreApplication.instance().quit)
+        self.tkonbtn.clicked.connect(self.transInfo)
+        cancelbtn.clicked.connect(self.hide)
 
     #def infoWindow(self):
         #self.show()
@@ -78,7 +80,10 @@ class InfoWindowWidget(QWidget):
         regService = RegisterService()
 
         userInfo = [self.nameEdit.text(), self.departmentlist[self.departmentEdit.currentIndex()][1], self.genderEdit.currentIndex() + 1, self.ageEdit.text()]
-        regService.register(self.username, self.password, userInfo)
+        if(regService.register(self.username, self.password, userInfo)):
+            print("reg succeed")
+        else:
+            QMessageBox.information(self,"提示", "用户已存在")
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
