@@ -5,6 +5,7 @@ from PyQt5.QtGui import QFont
 from sql.sql_functions import get_department_list
 from service.RecordService import RecordService
 
+
 class AddMedicalRecord(QWidget):
 
     def __init__(self):
@@ -14,90 +15,90 @@ class AddMedicalRecord(QWidget):
         self.data = {}
 
     def initUI(self):
-        gridinformation = QGridLayout()
-        gridinformation.setSpacing(10)
+        self.gridinformation = QGridLayout()
+        self.gridinformation.setSpacing(10)
         # 病人基本信息网格，行距1个字距
 
-        title = QLabel('电子病历', self)
-        title.setFont(QFont("Microsoft YaHei", 18, QFont.Bold))
-        gridinformation.addWidget(title, 0, 0)
+        self.title = QLabel('电子病历', self)
+        self.title.setFont(QFont("Microsoft YaHei", 18, QFont.Bold))
+        self.gridinformation.addWidget(self.title, 0, 0)
 
         string = '姓       名：'
-        name = QLabel(string, self)
-        name.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(name, 2, 0)
+        self.name = QLabel(string, self)
+        self.name.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.name, 2, 0)
         self.nameEdit = QLineEdit()
-        gridinformation.addWidget(self.nameEdit, 2, 1)
+        self.gridinformation.addWidget(self.nameEdit, 2, 1)
 
         string = '性       别：'
-        gender = QLabel(string, self)
-        gender.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(gender, 3, 0)
+        self.gender = QLabel(string, self)
+        self.gender.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.gender, 3, 0)
         self.namecombo = QComboBox(self)
         self.namecombo.addItem('男')
         self.namecombo.addItem('女')
-        gridinformation.addWidget(self.namecombo, 3, 1)
+        self.gridinformation.addWidget(self.namecombo, 3, 1)
 
         string = '年       龄：'
-        age = QLabel(string, self)
-        age.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(age, 4, 0)
+        self.age = QLabel(string, self)
+        self.age.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.age, 4, 0)
         self.ageEdit = QLineEdit()
-        gridinformation.addWidget(self.ageEdit, 4, 1)
+        self.gridinformation.addWidget(self.ageEdit, 4, 1)
 
         string = '民       族：'
-        nation = QLabel(string, self)
-        nation.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(nation, 5, 0, )
+        self.nation = QLabel(string, self)
+        self.nation.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.nation, 5, 0, )
         self.nationEdit = QLineEdit()
-        gridinformation.addWidget(self.nationEdit, 5, 1)
+        self.gridinformation.addWidget(self.nationEdit, 5, 1)
 
         string = '工作单位：'
-        company = QLabel(string, self)
-        company.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(company, 6, 0)
+        self.company = QLabel(string, self)
+        self.company.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.company, 6, 0)
         self.companyEdit = QLineEdit()
-        gridinformation.addWidget(self.companyEdit, 6, 1)
+        self.gridinformation.addWidget(self.companyEdit, 6, 1)
 
         string = '住       址：'
-        address = QLabel(string, self)
-        address.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(address, 7, 0)
+        self.address = QLabel(string, self)
+        self.address.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.address, 7, 0)
         self.addressEdit = QLineEdit()
-        gridinformation.addWidget(self.addressEdit, 7, 1)
+        self.gridinformation.addWidget(self.addressEdit, 7, 1)
 
         string = '科       室：'
-        department = QLabel(string, self)
-        department.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(department, 8, 0)
+        self.department = QLabel(string, self)
+        self.department.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.department, 8, 0)
         self.gendercombo = QComboBox(self)
         for d in self.departmentlist:
             self.gendercombo.addItem(d[0])
-        gridinformation.addWidget(self.gendercombo, 8, 1)
+        self.gridinformation.addWidget(self.gendercombo, 8, 1)
 
         string = '症       状：'
-        symptom = QLabel(string, self)
-        symptom.setWordWrap(True)
-        symptom.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(symptom, 10, 0)
+        self.symptom = QLabel(string, self)
+        self.symptom.setWordWrap(True)
+        self.symptom.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.symptom, 10, 0)
         self.symptomEdit = QTextEdit()
-        gridinformation.addWidget(self.symptomEdit, 10, 1, 2, 1)
+        self.gridinformation.addWidget(self.symptomEdit, 10, 1, 2, 1)
 
         string = '病情结论：'
-        conclusion = QLabel(string, self)
-        conclusion.setWordWrap(True)
-        conclusion.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(conclusion, 13, 0)
+        self.conclusion = QLabel(string, self)
+        self.conclusion.setWordWrap(True)
+        self.conclusion.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.conclusion, 13, 0)
         # 病人基础信息网格布局
         self.conclusionEdit = QTextEdit()
-        gridinformation.addWidget(self.conclusionEdit, 14, 1, 2, 1)
+        self.gridinformation.addWidget(self.conclusionEdit, 14, 1, 2, 1)
 
-        addButton = QPushButton('添加', self)
-        addButton.setFixedSize(60, 30)
-        addButton.clicked.connect(self.commit)
-        gridinformation.addWidget(addButton, 16, 1)
+        self.addButton = QPushButton('添加', self)
+        self.addButton.setFixedSize(60, 30)
+        self.addButton.clicked.connect(self.commit)
+        self.gridinformation.addWidget(self.addButton, 16, 1)
 
-        self.setLayout(gridinformation)
+        self.setLayout(self.gridinformation)
         # 网格布局排列结束
 
         self.setGeometry(0, 0, 500, 650)
@@ -111,7 +112,7 @@ class AddMedicalRecord(QWidget):
         self.data['company'] = self.companyEdit.text()
         self.data['gender'] = self.gendercombo.currentIndex() + 1
         self.data['address'] = self.addressEdit.text()
-        age=self.ageEdit.text()
+        age = self.ageEdit.text()
         if age.isdigit():
             self.data['age'] = int(age)
         else:
@@ -129,9 +130,3 @@ class AddMedicalRecord(QWidget):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    AMR = AddMedicalRecord()
-    sys.exit(app.exec_())

@@ -19,137 +19,129 @@ class MedicalRecord(QWidget):
         self.initUI()
 
     def initUI(self):
-        grid = QGridLayout()
-        grid.setSpacing(1)
+        self.grid = QGridLayout()
+        self.grid.setSpacing(1)
         # 外层网格
 
-        gridinformation = QGridLayout()
-        gridinformation.setSpacing(10)
+        self.gridinformation = QGridLayout()
+        self.gridinformation.setSpacing(10)
         # 病人基本信息网格，行距1个字距
 
-        title = QLabel('                                  电子病历', self)
-        title.setFont(QFont("Microsoft YaHei", 18, QFont.Bold))
+        self.title = QLabel('                                  电子病历', self)
+        self.title.setFont(QFont("Microsoft YaHei", 18, QFont.Bold))
         # title.move(235, 15)
-        gridinformation.addWidget(title, 0, 0)
+        self.gridinformation.addWidget(self.title, 0, 0)
 
         string = '  姓名: ' + self.data.get('name')
-        name = QLabel(string, self)
-        name.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(name, 1, 0)
+        self.name = QLabel(string, self)
+        self.name.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.name, 1, 0)
 
         string = '工作单位: ' + self.data.get('company')
-        company = QLabel(string, self)
-        company.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(company, 1, 1)
+        self.company = QLabel(string, self)
+        self.company.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.company, 1, 1)
 
         string = '  性别: ' + self.data.get('gender')
-        gender = QLabel(string, self)
-        gender.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(gender, 2, 0)
+        self.gender = QLabel(string, self)
+        self.gender.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.gender, 2, 0)
 
         string = '住       址: ' + self.data.get('address')
-        address = QLabel(string, self)
-        address.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(address, 2, 1)
+        self.address = QLabel(string, self)
+        self.address.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.address, 2, 1)
 
         string = '  年龄: ' + self.data.get('age')
-        age = QLabel(string, self)
-        age.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(age, 3, 0)
+        self.age = QLabel(string, self)
+        self.age.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.age, 3, 0)
 
         string = '科       室: ' + self.data.get('department')
-        department = QLabel(string, self)
-        department.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(department, 3, 1)
+        self.department = QLabel(string, self)
+        self.department.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.department, 3, 1)
 
         string = '  民族: ' + self.data.get('nation')
-        nation = QLabel(string, self)
-        nation.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(nation, 4, 0, )
+        self.nation = QLabel(string, self)
+        self.nation.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.nation, 4, 0, )
 
         string = '日       期: ' + self.data.get('date')
-        date = QLabel(string, self)
-        date.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation.addWidget(date, 4, 1, )
+        self.date = QLabel(string, self)
+        self.date.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation.addWidget(self.date, 4, 1, )
 
-        gridinformation2 = QGridLayout()
-        gridinformation2.setSpacing(1)
+        self.gridinformation2 = QGridLayout()
+        self.gridinformation2.setSpacing(1)
 
         string = '症       状: ' + self.data.get('symptom')
-        symptom = QLabel(string, self)
-        symptom.setWordWrap(True)
-        symptom.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation2.addWidget(symptom, 4, 0, 4, 2)
+        self.symptom = QLabel(string, self)
+        self.symptom.setWordWrap(True)
+        self.symptom.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation2.addWidget(self.symptom, 4, 0, 4, 2)
 
         string = '病情结论: ' + self.data.get('conclusion')
-        conclusion = QLabel(string, self)
-        conclusion.setWordWrap(True)
-        conclusion.setFont(QFont("Microsoft YaHei", 11))
-        gridinformation2.addWidget(conclusion, 5, 0, 5, 2)
+        self.conclusion = QLabel(string, self)
+        self.conclusion.setWordWrap(True)
+        self.conclusion.setFont(QFont("Microsoft YaHei", 11))
+        self.gridinformation2.addWidget(self.conclusion, 5, 0, 5, 2)
         # 病人基础信息网格布局
 
-        gridsign = QGridLayout()
-        gridsign.setSpacing(1)
+        self.gridsign = QGridLayout()
+        self.gridsign.setSpacing(1)
         # 电子签名布局
-        signframe = QFrame(self)
-        signframe.setFrameShape(QFrame.StyledPanel)
-        signframe.move(20, 420)
-        signframe.resize(575, 180)
+        self.signframe = QFrame(self)
+        self.signframe.setFrameShape(QFrame.StyledPanel)
+        self.signframe.move(20, 420)
+        self.signframe.resize(575, 180)
         # 分隔框
 
         string = '          是否电子签名，若进行电子签名，病历便不能修改'
-        signprompt = QLabel(string, self)
-        signprompt.setFont(QFont("Microsoft YaHei", 11))
-        gridsign.addWidget(signprompt, 0, 0)
+        self.signprompt = QLabel(string, self)
+        self.signprompt.setFont(QFont("Microsoft YaHei", 11))
+        self.gridsign.addWidget(self.signprompt, 0, 0)
 
-        yes = QRadioButton('是', self)
-        yes.setFocusPolicy(Qt.NoFocus)
-        yes.toggle()
+        self.yes = QRadioButton('是', self)
+        self.yes.setFocusPolicy(Qt.NoFocus)
+        self.yes.toggle()
         # yes.toggled.connect(self.changeButton)
 
-        no = QRadioButton('否', self)
-        no.setFocusPolicy(Qt.NoFocus)
-        no.toggle()
+        self.no = QRadioButton('否', self)
+        self.no.setFocusPolicy(Qt.NoFocus)
+        self.no.toggle()
         # no.toggled.connect(self.changeButton) 单选框触发事件
-        gridsign.addWidget(yes, 1, 1)
-        gridsign.addWidget(no, 1, 2)
+        self.gridsign.addWidget(self.yes, 1, 1)
+        self.gridsign.addWidget(self.no, 1, 2)
         # 单选框网格布局
 
-        Sign = QLabel('         电子签名：', self)
-        Sign.setFont(QFont("Microsoft YaHei", 14, QFont.Bold))
-        gridsign.addWidget(Sign, 2, 0)
+        self.Sign = QLabel('         电子签名：', self)
+        self.Sign.setFont(QFont("Microsoft YaHei", 14, QFont.Bold))
+        self.gridsign.addWidget(self.Sign, 2, 0)
 
-        gridbutton = QGridLayout()
-        gridbutton.setSpacing(1)
-        okButton = QPushButton('提交')
-        okButton.setFixedSize(60, 30)
+        self.gridbutton = QGridLayout()
+        self.gridbutton.setSpacing(1)
+        self.okButton = QPushButton('提交')
+        self.okButton.setFixedSize(60, 30)
         # okButton.resize(okButton.sizeHint())
-        gridbutton.addWidget(okButton, 0, 2)
+        self.gridbutton.addWidget(self.okButton, 0, 2)
 
         # button网格布局
 
-        grid.addLayout(gridbutton, 3, 0)
-        grid.addLayout(gridinformation, 0, 0)
-        grid.addLayout(gridinformation2, 1, 0)
-        grid.addLayout(gridsign, 2, 0)
-        self.setLayout(grid)
+        self.grid.addLayout(self.gridbutton, 3, 0)
+        self.grid.addLayout(self.gridinformation, 0, 0)
+        self.grid.addLayout(self.gridinformation2, 1, 0)
+        self.grid.addLayout(self.gridsign, 2, 0)
+        self.setLayout(self.grid)
         # 网格布局排列结束
 
         self.setGeometry(0, 0, 570, 650)
         self.setFixedSize(610, 650)
         self.center()
-        # 窗口居中显示
         self.setWindowTitle('电子病历')
-        self.show()
 
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    MR = MedicalRecord('caomai2')
-    sys.exit(app.exec_())
