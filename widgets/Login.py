@@ -5,6 +5,7 @@ from service.LoginService import LoginService
 
 
 class Login(QWidget):
+    signal_login = pyqtSignal(str)
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -80,6 +81,8 @@ class Login(QWidget):
         if(check[0]):
             print("Log in succeed")
             self.message = "登录成功"
+            self.hide()
+            self.signal_login.emit(self.message)
         else:
             print("Log in failed")
             self.message = check[1]
