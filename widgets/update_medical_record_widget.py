@@ -1,9 +1,8 @@
-from PyQt5.QtWidgets import (QApplication,QTextEdit,QWidget, QDesktopWidget, QPushButton, QLabel, QGridLayout)
+from PyQt5.QtWidgets import (QTextEdit, QWidget, QDesktopWidget, QPushButton, QLabel, QGridLayout)
 from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
-import sys
 
-class AmendMedicalRecord(QWidget):
+
+class UpdateMedicalRecord(QWidget):
 
     def __init__(self):
         super().__init__()
@@ -125,17 +124,13 @@ class AmendMedicalRecord(QWidget):
         self.name.setText('  姓名: ' + self.data.get('name'))
         self.company.setText('工作单位: ' + self.data.get('company'))
         self.gender.setText('  性别: ' + self.data.get('gender'))
-        self.age.setText('  年龄: '+ self.data.get('age'))
-        self.address.setText ('住       址: ' + self.data.get('address'))
+        self.age.setText('  年龄: ' + self.data.get('age'))
+        self.address.setText('住       址: ' + self.data.get('address'))
         self.department.setText('科       室: ' + self.data.get('department'))
         self.nation.setText('  民族: ' + self.data.get('nation'))
         self.date.setText('日       期: ' + self.data.get('date'))
         self.symptom.setText('症       状: ' + self.data.get('symptom'))
         self.conclusion.setText('病情结论: ' + self.data.get('conclusion'))
-        #self.Sign.setText('电子签名：' + self.data.get('name'))
-        #判断是否有电子签名 进行修改
+        # self.Sign.setText('电子签名：' + self.data.get('name'))
+        # 判断是否有电子签名 进行修改
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = AmendMedicalRecord()
-    sys.exit(app.exec_())

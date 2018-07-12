@@ -9,15 +9,30 @@ from widgets.show_medical_record_widget import ShowMedicalRecordWidget
 class DigitalRecordSystem:
     def __init__(self):
         self.main_widget = MainWidget()
-        self.register_widget = RegisterWidget()
-        self.info_window_widget = InfoWindowWidget()
-        self.login_widget = LoginWidget()
+        # self.register_widget = RegisterWidget()
+        # self.info_window_widget = InfoWindowWidget()
+        # self.login_widget = LoginWidget()
         self.add_medical_record_widget = AddMedicalRecordWidget()
         self.show_medical_record_widget = ShowMedicalRecordWidget()
+
+        self.init_connects()
+        # self.init_slots()
         return
 
     def init_slots(self):
+        # self.register_widget.signal_user.connect(self.info_window_widget.getUser)
         self.register_widget.signal_user.connect(self.info_window_widget.show)
-        self.register_widget.signal_user.connect(self.info_window_widget.getUser)
         self.login_widget.regbtn.connect(self.register_widget.show)
         return
+
+    def init_connects(self):
+        self.main_widget.ui.add_button.clicked.connect(self.add_medical_record_widget.show)
+        self.main_widget.ui.search_button.clicked.connect(self.show_search_widget)
+
+    def show_search_widget(self):
+        name=self.main_widget.get_search_info()
+        self.show_medical_record_widget.load_data(name)
+        if self.show_medical_record_widget.refresh_data():
+            self.show_medical_record_widget.show()
+        else:
+            self.main_widget.search_fail_message()

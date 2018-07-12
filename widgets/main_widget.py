@@ -57,11 +57,12 @@ class MainWidget(QtWidgets.QWidget):
         self.resize(480, 400)
         self.ui = Ui_main_window()
         self.ui.setupUi(self)
-        self.ui.exit_button.clicked.connect(self.on_add_button_clicked)
 
-    def on_add_button_clicked(self):
-        # add.show
-        return
+    def get_search_info(self):
+        return self.ui.name_input_edit.text()
+
+    def search_fail_message(self):
+        QtWidgets.QMessageBox.information(self, "警告", "没有找到对应病人信息",QtWidgets.QMessageBox.Yes)
 
     def set_user_id(self, user_id):
         self.user_id = user_id

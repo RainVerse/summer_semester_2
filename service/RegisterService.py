@@ -49,4 +49,4 @@ class RegisterService:
         return False
 
 
-# RegisterService().register(username='admin2', password='123456', doctor_info=['曹迈', 1, 1, 22])
+# RegisterService().register(username='admin3', password='123456', doctor_info=['hkp', 1, 1, 22])

@@ -23,8 +23,8 @@ class InfoWindowWidget(QWidget):
         self.genderEdit.setEditable(0)
         self.departmentEdit.setEditable(0)
 
-        self.genderEdit.addItem('男',0)
-        self.genderEdit.addItem('女',1)
+        self.genderEdit.addItem('男', 0)
+        self.genderEdit.addItem('女', 1)
 
         self.departmentlist = get_department_list()
         for d in self.departmentlist:
@@ -32,10 +32,10 @@ class InfoWindowWidget(QWidget):
             self.departmentEdit.addItem(d[0])
 
         form = QFormLayout()
-        form.addRow(name,self.nameEdit)
-        form.addRow(gender,self.genderEdit)
-        form.addRow(age,self.ageEdit)
-        form.addRow(department,self.departmentEdit)
+        form.addRow(name, self.nameEdit)
+        form.addRow(gender, self.genderEdit)
+        form.addRow(age, self.ageEdit)
+        form.addRow(department, self.departmentEdit)
 
         vbox = QVBoxLayout()
         vbox.addLayout(form)
@@ -65,20 +65,22 @@ class InfoWindowWidget(QWidget):
         self.tkonbtn.clicked.connect(self.transInfo())
         cancelbtn.clicked.connect(QCoreApplication.instance().quit)
 
-    #def infoWindow(self):
-        #self.show()
-    def getUser(self, username, password):
+    
+    def getUser(self, ):
         print("get user")
+
+
+    def transInfo(self,username, password):
         self.username = username
         self.password = password
-
-    def transInfo(self):
         print("trans info to database")
         source = self.sender()
         regService = RegisterService()
 
-        userInfo = [self.nameEdit.text(), self.departmentlist[self.departmentEdit.currentIndex()][1], self.genderEdit.currentIndex() + 1, self.ageEdit.text()]
+        userInfo = [self.nameEdit.text(), self.departmentlist[self.departmentEdit.currentIndex()][1],
+                    self.genderEdit.currentIndex() + 1, self.ageEdit.text()]
         regService.register(self.username, self.password, userInfo)
+
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()

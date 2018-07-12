@@ -19,7 +19,7 @@ class ShowMedicalRecordWidget(QWidget):
         self.gridinformation.setSpacing(10)
         # 病人基本信息网格，行距1个字距
 
-        self.title = QLabel('                                  电子病历', self)
+        self.title = QLabel('                                电子病历', self)
         self.title.setFont(QFont("Microsoft YaHei", 18, QFont.Bold))
         # title.move(235, 15)
         self.gridinformation.addWidget(self.title, 0, 0)
@@ -80,14 +80,18 @@ class ShowMedicalRecordWidget(QWidget):
         self.gridinformation2.addWidget(self.conclusion, 5, 0, 5, 2)
         # 病人基础信息网格布局
 
+        self.setGeometry(0, 0, 570, 650)
+        self.setFixedSize(610, 650)
+        self.center()
+        self.setWindowTitle('电子病历')
         self.gridsign = QGridLayout()
         self.gridsign.setSpacing(1)
-        # 电子签名布局
         self.signframe = QFrame(self)
         self.signframe.setFrameShape(QFrame.StyledPanel)
         self.signframe.move(20, 420)
-        self.signframe.resize(575, 180)
-        # 分隔框
+        self.signframe.resize(575, 190)
+
+    def load_ui_not_signed(self):
 
         string = '          是否电子签名，若进行电子签名，病历便不能修改'
         self.signprompt = QLabel(string, self)
@@ -97,40 +101,45 @@ class ShowMedicalRecordWidget(QWidget):
         self.yes = QRadioButton('是', self)
         self.yes.setFocusPolicy(Qt.NoFocus)
         self.yes.toggle()
-        # yes.toggled.connect(self.changeButton)
 
         self.no = QRadioButton('否', self)
         self.no.setFocusPolicy(Qt.NoFocus)
         self.no.toggle()
-        # no.toggled.connect(self.changeButton) 单选框触发事件
         self.gridsign.addWidget(self.yes, 1, 1)
         self.gridsign.addWidget(self.no, 1, 2)
-        # 单选框网格布局
-
-        self.Sign = QLabel('         电子签名：', self)
-        self.Sign.setFont(QFont("Microsoft YaHei", 14, QFont.Bold))
-        self.gridsign.addWidget(self.Sign, 2, 0)
 
         self.gridbutton = QGridLayout()
         self.gridbutton.setSpacing(1)
         self.okButton = QPushButton('提交')
         self.okButton.setFixedSize(60, 30)
-        # okButton.resize(okButton.sizeHint())
         self.gridbutton.addWidget(self.okButton, 0, 2)
-
-        # button网格布局
 
         self.grid.addLayout(self.gridbutton, 3, 0)
         self.grid.addLayout(self.gridinformation, 0, 0)
         self.grid.addLayout(self.gridinformation2, 1, 0)
         self.grid.addLayout(self.gridsign, 2, 0)
         self.setLayout(self.grid)
-        # 网格布局排列结束
+        if hasattr(self,'Sign'):
+            self.Sign.hide()
 
-        self.setGeometry(0, 0, 570, 650)
-        self.setFixedSize(610, 650)
-        self.center()
-        self.setWindowTitle('电子病历')
+
+    def load_ui_signed(self, name):
+
+        self.Sign = QLabel('         电子签名：' + name, self)
+        self.Sign.setFont(QFont("Microsoft YaHei", 14, QFont.Bold))
+        self.gridsign.addWidget(self.Sign, 2, 0)
+
+        self.grid.addLayout(self.gridinformation, 0, 0)
+        self.grid.addLayout(self.gridinformation2, 1, 0)
+        self.grid.addLayout(self.gridsign, 2, 0)
+        self.setLayout(self.grid)
+
+        if hasattr(self,'signprompt'):
+            self.signprompt.hide()
+            self.yes.hide()
+            self.no.hide()
+            self.okButton.hide()
+
 
     def center(self):
         qr = self.frameGeometry()
@@ -138,19 +147,24 @@ class ShowMedicalRecordWidget(QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    def load_data(self,name):
+    def load_data(self, name):
         self.data = RecordService().get_record_data(name)
 
     def refresh_data(self):
         if self.data is None:
-            return
+            return False
         self.name.setText('  姓名: ' + self.data.get('name'))
         self.company.setText('工作单位: ' + self.data.get('company'))
         self.gender.setText('  性别: ' + self.data.get('gender'))
-        self.age.setText(self.data.get('age'))
-        self.address.setText(self.data.get('address'))
-        self.department.setText(self.data.get('department'))
-        self.nation.setText(self.data.get('nation'))
-        self.date.setText(self.data.get('date'))
-        self.symptom.setText(self.data.get('symptom'))
-        self.conclusion.setText(self.data.get('conclusion'))
+        self.age.setText('  年龄: ' + self.data.get('age'))
+        self.address.setText('住       址: ' + self.data.get('address'))
+        self.department.setText('科       室: ' + self.data.get('department'))
+        self.nation.setText('  民族: ' + self.data.get('nation'))
+        self.date.setText('日       期: ' + self.data.get('date'))
+        self.symptom.setText('症       状: ' + self.data.get('symptom'))
+        self.conclusion.setText('病情结论: ' + self.data.get('conclusion'))
+        if self.data.get('sign') is None:
+            self.load_ui_not_signed()
+        else:
+            self.load_ui_signed(self.data.get('sign'))
+        return True
