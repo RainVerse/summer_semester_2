@@ -8,6 +8,8 @@ class ShowMedicalRecordWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.record_id = None
+        self.user_id = None
         self.initUI()
 
     def initUI(self):
@@ -57,12 +59,12 @@ class ShowMedicalRecordWidget(QWidget):
         string = '  民族: '
         self.nation = QLabel(string, self)
         self.nation.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.nation, 4, 0, )
+        self.gridinformation.addWidget(self.nation, 4, 0)
 
         string = '日       期: '
         self.date = QLabel(string, self)
         self.date.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.date, 4, 1, )
+        self.gridinformation.addWidget(self.date, 4, 1)
 
         self.gridinformation2 = QGridLayout()
         self.gridinformation2.setSpacing(1)
@@ -71,14 +73,17 @@ class ShowMedicalRecordWidget(QWidget):
         self.symptom = QLabel(string, self)
         self.symptom.setWordWrap(True)
         self.symptom.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation2.addWidget(self.symptom, 4, 0, 4, 2)
+        self.gridinformation2.addWidget(self.symptom, 0, 0, 2, 2)
 
         string = '病情结论: '
         self.conclusion = QLabel(string, self)
         self.conclusion.setWordWrap(True)
         self.conclusion.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation2.addWidget(self.conclusion, 5, 0, 5, 2)
-        # 病人基础信息网格布局
+        self.gridinformation2.addWidget(self.conclusion, 1, 0, 2, 2)
+
+        self.editButton = QPushButton('编辑')
+        self.editButton.setFixedSize(60, 30)
+        self.gridinformation2.addWidget(self.editButton, 4, 0)
 
         self.setGeometry(0, 0, 570, 650)
         self.setFixedSize(610, 650)
@@ -119,9 +124,8 @@ class ShowMedicalRecordWidget(QWidget):
         self.grid.addLayout(self.gridinformation2, 1, 0)
         self.grid.addLayout(self.gridsign, 2, 0)
         self.setLayout(self.grid)
-        if hasattr(self,'Sign'):
+        if hasattr(self, 'Sign'):
             self.Sign.hide()
-
 
     def load_ui_signed(self, name):
 
@@ -134,12 +138,11 @@ class ShowMedicalRecordWidget(QWidget):
         self.grid.addLayout(self.gridsign, 2, 0)
         self.setLayout(self.grid)
 
-        if hasattr(self,'signprompt'):
+        if hasattr(self, 'signprompt'):
             self.signprompt.hide()
             self.yes.hide()
             self.no.hide()
             self.okButton.hide()
-
 
     def center(self):
         qr = self.frameGeometry()
@@ -150,9 +153,11 @@ class ShowMedicalRecordWidget(QWidget):
     def load_data(self, name):
         self.data = RecordService().get_record_data(name)
 
-    def refresh_data(self):
+    def refresh_data(self, user_id):
         if self.data is None:
             return False
+        self.record_id = self.data.get('id')
+        self.user_id = user_id
         self.name.setText('  姓名: ' + self.data.get('name'))
         self.company.setText('工作单位: ' + self.data.get('company'))
         self.gender.setText('  性别: ' + self.data.get('gender'))

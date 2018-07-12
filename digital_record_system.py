@@ -33,7 +33,9 @@ class DigitalRecordSystem:
     def show_search_widget(self):
         name=self.main_widget.get_search_info()
         self.show_medical_record_widget.load_data(name)
-        if self.show_medical_record_widget.refresh_data():
+        if self.show_medical_record_widget.refresh_data(self.main_widget.user_id):
             self.show_medical_record_widget.show()
         else:
             self.main_widget.search_fail_message()
+
+
