@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QWidget, QDesktopWidget, QPushButton, QLabel, QLineEdit, QGridLayout,
-                             QTextEdit, QComboBox)
+                             QTextEdit, QComboBox,QMessageBox)
 from PyQt5.QtGui import QFont
 from sql.sql_functions import get_department_list
 from service.RecordService import RecordService
@@ -115,14 +115,18 @@ class AddMedicalRecordWidget(QWidget):
         if age.isdigit():
             self.data['age'] = int(age)
         else:
-            print('input digit')
+            QMessageBox.information(self, "警告", "请在年龄栏输入正确的数字", QMessageBox.Yes)
             return
         self.data['department_id'] = self.departmentlist[self.gendercombo.currentIndex()][1]
         self.data['nation'] = self.nationEdit.text()
         self.data['symptom'] = self.symptomEdit.toPlainText()
         self.data['conclusion'] = self.conclusionEdit.toPlainText()
-        print(self.data)
-        print(RecordService().add_record(self.data))
+        ret,message = RecordService().add_record(self.data)
+        if ret:
+            QMessageBox.information(self, "警告", "添加病历成功", QMessageBox.Yes)
+            self.hide()
+        else:
+            QMessageBox.information(self, "警告", "添加病历失败，"+message, QMessageBox.Yes)
 
     def center(self):
         qr = self.frameGeometry()

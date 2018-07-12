@@ -25,8 +25,8 @@ class InfoWindowWidget(QWidget):
         self.genderEdit.setEditable(0)
         self.departmentEdit.setEditable(0)
 
-        self.genderEdit.addItem('男',0)
-        self.genderEdit.addItem('女',1)
+        self.genderEdit.addItem('男', 0)
+        self.genderEdit.addItem('女', 1)
 
         self.departmentlist = get_department_list()
         for d in self.departmentlist:
@@ -34,10 +34,10 @@ class InfoWindowWidget(QWidget):
             self.departmentEdit.addItem(d[0])
 
         form = QFormLayout()
-        form.addRow(name,self.nameEdit)
-        form.addRow(gender,self.genderEdit)
-        form.addRow(age,self.ageEdit)
-        form.addRow(department,self.departmentEdit)
+        form.addRow(name, self.nameEdit)
+        form.addRow(gender, self.genderEdit)
+        form.addRow(age, self.ageEdit)
+        form.addRow(department, self.departmentEdit)
 
         vbox = QVBoxLayout()
         vbox.addLayout(form)

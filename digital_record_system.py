@@ -15,6 +15,7 @@ class DigitalRecordSystem:
         self.add_medical_record_widget = AddMedicalRecordWidget()
         self.show_medical_record_widget = ShowMedicalRecordWidget()
         self.init_slots()
+        self.init_connects()
         return
 
     def init_slots(self):
@@ -24,3 +25,15 @@ class DigitalRecordSystem:
         self.login_widget.signal_login.connect(self.main_widget.set_user_id)
         self.login_widget.signal_login.connect(self.main_widget.show)
         return
+
+    def init_connects(self):
+        self.main_widget.ui.add_button.clicked.connect(self.add_medical_record_widget.show)
+        self.main_widget.ui.search_button.clicked.connect(self.show_search_widget)
+
+    def show_search_widget(self):
+        name=self.main_widget.get_search_info()
+        self.show_medical_record_widget.load_data(name)
+        if self.show_medical_record_widget.refresh_data():
+            self.show_medical_record_widget.show()
+        else:
+            self.main_widget.search_fail_message()
