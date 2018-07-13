@@ -1,6 +1,7 @@
-from PyQt5.QtWidgets import (QTextEdit, QWidget, QDesktopWidget, QPushButton, QLabel, QGridLayout)
+from PyQt5.QtWidgets import (QTextEdit, QWidget, QDesktopWidget, QPushButton, QLabel, QGridLayout,QMessageBox)
 from PyQt5.QtGui import QFont
 from service.RecordService import RecordService
+
 
 class UpdateMedicalRecordWidget(QWidget):
 
@@ -93,9 +94,10 @@ class UpdateMedicalRecordWidget(QWidget):
 
         self.gridbutton = QGridLayout()
         self.gridbutton.setSpacing(1)
-        self.amendButton = QPushButton('修改')
-        self.amendButton.setFixedSize(60, 30)
-        self.gridbutton.addWidget(self.amendButton, 0, 2)
+        self.updateButton = QPushButton('修改')
+        self.updateButton.clicked.connect(self.on_commit_button_clicked)
+        self.updateButton.setFixedSize(60, 30)
+        self.gridbutton.addWidget(self.updateButton, 0, 2)
 
         self.grid.addLayout(self.gridbutton, 3, 0)
         self.grid.addLayout(self.gridinformation, 0, 0)
@@ -117,7 +119,7 @@ class UpdateMedicalRecordWidget(QWidget):
     def load_data(self, name):
         self.data = RecordService().get_record_data(name)
 
-    def refresh_data(self,user_id):
+    def refresh_data(self, user_id):
         if self.data is None:
             return False
         self.record_id = self.data.get('id')
@@ -134,3 +136,10 @@ class UpdateMedicalRecordWidget(QWidget):
         self.conclusionEdit.setText(self.data.get('conclusion'))
         self.Sign.setText('电子签名：' + self.data.get('sign') if self.data.get('sign') is not None else '无')
         return True
+
+    def on_commit_button_clicked(self):
+        updated_data = {'symptom': self.symptomEdit.toPlainText(), 'conclusion': self.conclusionEdit.toPlainText()}
+        ret, message = RecordService().update_record_data(self.user_id, self.record_id, updated_data)
+        QMessageBox.information(self, "警告", message, QMessageBox.Yes)
+        if ret:
+            self.hide()

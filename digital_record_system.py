@@ -46,6 +46,7 @@ class DigitalRecordSystem:
         self.update_medical_record_widget.load_data(name)
         if self.update_medical_record_widget.refresh_data(self.show_medical_record_widget.user_id):
             self.update_medical_record_widget.show()
+            self.show_medical_record_widget.hide()
         else:
             return
 

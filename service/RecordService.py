@@ -80,7 +80,7 @@ class RecordService:
             try:
                 session.commit()
                 session.close()
-                return True, '修改成功'
+                return True, '验证通过，修改成功'
             except:
                 session.rollback()
                 session.close()
