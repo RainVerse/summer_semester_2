@@ -47,7 +47,8 @@ class SignService:
             session.commit()
             session.close()
             return True, '签名成功'
-        except:
+        except Exception as e:
+            print('repr(e):\t', repr(e))
             session.rollback()
             session.close()
             return False, '数据库错误'

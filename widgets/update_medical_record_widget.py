@@ -1,20 +1,23 @@
 from PyQt5.QtWidgets import (QTextEdit, QWidget, QDesktopWidget, QPushButton, QLabel, QGridLayout)
 from PyQt5.QtGui import QFont
+from service.RecordService import RecordService
 
-
-class UpdateMedicalRecord(QWidget):
+class UpdateMedicalRecordWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.record_id = None
+        self.user_id = None
+        self.data = None
         self.initUI()
 
     def initUI(self):
         self.grid = QGridLayout()
-        self.grid.setSpacing(50)
+        self.grid.setSpacing(20)
         # 外层网格
 
         self.gridinformation = QGridLayout()
-        self.gridinformation.setSpacing(10)
+        self.gridinformation.setSpacing(20)
         # 病人基本信息网格，行距1个字距
 
         self.title = QLabel('电子病历', self)
@@ -29,7 +32,7 @@ class UpdateMedicalRecord(QWidget):
         string = '工作单位: '
         self.company = QLabel(string, self)
         self.company.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.company, 5, 0)
+        self.gridinformation.addWidget(self.company, 1, 1)
 
         string = '性       别: '
         self.gender = QLabel(string, self)
@@ -39,7 +42,7 @@ class UpdateMedicalRecord(QWidget):
         string = '住       址: '
         self.address = QLabel(string, self)
         self.address.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.address, 6, 0)
+        self.gridinformation.addWidget(self.address, 2, 1)
 
         string = '年       龄: '
         self.age = QLabel(string, self)
@@ -49,7 +52,7 @@ class UpdateMedicalRecord(QWidget):
         string = '科       室: '
         self.department = QLabel(string, self)
         self.department.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.department, 7, 0)
+        self.gridinformation.addWidget(self.department, 3, 1)
 
         string = '民       族: '
         self.nation = QLabel(string, self)
@@ -59,27 +62,27 @@ class UpdateMedicalRecord(QWidget):
         string = '日       期: '
         self.date = QLabel(string, self)
         self.date.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.date, 8, 0)
+        self.gridinformation.addWidget(self.date, 4, 1)
 
         self.gridinformation2 = QGridLayout()
-        self.gridinformation2.setSpacing(1)
+        self.gridinformation2.setSpacing(15)
 
         string = '症       状：'
         self.symptom = QLabel(string, self)
         self.symptom.setWordWrap(True)
         self.symptom.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.symptom, 9, 0)
+        self.gridinformation2.addWidget(self.symptom, 0, 0)
         self.symptomEdit = QTextEdit()
-        self.gridinformation.addWidget(self.symptomEdit, 9, 1, 2, 1)
+        self.gridinformation2.addWidget(self.symptomEdit, 0, 1, 2, 1)
 
         string = '病情结论：'
         self.conclusion = QLabel(string, self)
         self.conclusion.setWordWrap(True)
         self.conclusion.setFont(QFont("Microsoft YaHei", 11))
-        self.gridinformation.addWidget(self.conclusion, 11, 0)
+        self.gridinformation2.addWidget(self.conclusion, 2, 0)
         # 病人基础信息网格布局
         self.conclusionEdit = QTextEdit()
-        self.gridinformation.addWidget(self.conclusionEdit, 11, 1, 2, 1)
+        self.gridinformation2.addWidget(self.conclusionEdit, 2, 1, 2, 1)
 
         self.gridsign = QGridLayout()
         self.gridsign.setSpacing(1)
@@ -92,22 +95,18 @@ class UpdateMedicalRecord(QWidget):
         self.gridbutton.setSpacing(1)
         self.amendButton = QPushButton('修改')
         self.amendButton.setFixedSize(60, 30)
-        # amendButton.resize(okButton.sizeHint())
         self.gridbutton.addWidget(self.amendButton, 0, 2)
 
-        # button网格布局
-
-        self.grid.addLayout(self.gridbutton, 2, 0)
+        self.grid.addLayout(self.gridbutton, 3, 0)
         self.grid.addLayout(self.gridinformation, 0, 0)
-        self.grid.addLayout(self.gridsign, 1, 0)
+        self.grid.addLayout(self.gridinformation2, 1, 0)
+        self.grid.addLayout(self.gridsign, 2, 0)
         self.setLayout(self.grid)
-        # 网格布局排列结束
 
         self.setGeometry(0, 0, 570, 650)
         self.setFixedSize(610, 650)
         self.center()
         self.setWindowTitle('电子病历')
-        self.show()
 
     def center(self):
         qr = self.frameGeometry()
@@ -115,12 +114,14 @@ class UpdateMedicalRecord(QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    '''def load_data(self,name):
-        self.data = RecordService().get_record_data(name)'''
+    def load_data(self, name):
+        self.data = RecordService().get_record_data(name)
 
-    def refresh_data(self):
+    def refresh_data(self,user_id):
         if self.data is None:
-            return
+            return False
+        self.record_id = self.data.get('id')
+        self.user_id = user_id
         self.name.setText('  姓名: ' + self.data.get('name'))
         self.company.setText('工作单位: ' + self.data.get('company'))
         self.gender.setText('  性别: ' + self.data.get('gender'))
@@ -129,8 +130,7 @@ class UpdateMedicalRecord(QWidget):
         self.department.setText('科       室: ' + self.data.get('department'))
         self.nation.setText('  民族: ' + self.data.get('nation'))
         self.date.setText('日       期: ' + self.data.get('date'))
-        self.symptom.setText('症       状: ' + self.data.get('symptom'))
-        self.conclusion.setText('病情结论: ' + self.data.get('conclusion'))
-        # self.Sign.setText('电子签名：' + self.data.get('name'))
-        # 判断是否有电子签名 进行修改
-
+        self.symptomEdit.setText(self.data.get('symptom'))
+        self.conclusionEdit.setText(self.data.get('conclusion'))
+        self.Sign.setText('电子签名：' + self.data.get('sign') if self.data.get('sign') is not None else '无')
+        return True

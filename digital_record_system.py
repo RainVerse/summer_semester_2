@@ -4,6 +4,7 @@ from widgets.Info_window_widget import InfoWindowWidget
 from widgets.login_widget import LoginWidget
 from widgets.add_medical_record_widget import AddMedicalRecordWidget
 from widgets.show_medical_record_widget import ShowMedicalRecordWidget
+from widgets.update_medical_record_widget import UpdateMedicalRecordWidget
 
 
 class DigitalRecordSystem:
@@ -14,6 +15,7 @@ class DigitalRecordSystem:
         self.login_widget = LoginWidget()
         self.add_medical_record_widget = AddMedicalRecordWidget()
         self.show_medical_record_widget = ShowMedicalRecordWidget()
+        self.update_medical_record_widget=UpdateMedicalRecordWidget()
         self.init_slots()
         self.init_connects()
         return
@@ -29,6 +31,7 @@ class DigitalRecordSystem:
     def init_connects(self):
         self.main_widget.ui.add_button.clicked.connect(self.add_medical_record_widget.show)
         self.main_widget.ui.search_button.clicked.connect(self.show_search_widget)
+        self.show_medical_record_widget.editButton.clicked.connect(self.show_edit_widget)
 
     def show_search_widget(self):
         name=self.main_widget.get_search_info()
@@ -37,5 +40,13 @@ class DigitalRecordSystem:
             self.show_medical_record_widget.show()
         else:
             self.main_widget.search_fail_message()
+
+    def show_edit_widget(self):
+        name=self.show_medical_record_widget.data.get('name')
+        self.update_medical_record_widget.load_data(name)
+        if self.update_medical_record_widget.refresh_data(self.show_medical_record_widget.user_id):
+            self.update_medical_record_widget.show()
+        else:
+            return
 
 
