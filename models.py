@@ -73,5 +73,5 @@ class DUser(Base):
 from CONFIG import config
 
 connect = create_engine(
-    'mysql+mysqlconnector://' + config.DATABASE_USER + ':' + config.DATABASE_PASSWORD + '@' + config.DATABASE_HOST + ':' + str(
+    'mysql+pymysql://' + config.DATABASE_USER + ':' + config.DATABASE_PASSWORD + '@' + config.DATABASE_HOST + ':' + str(
         config.DATABASE_PORT) + '/' + config.DATABASE_NAME + '?charset='+config.DATABASE_ENCODING)

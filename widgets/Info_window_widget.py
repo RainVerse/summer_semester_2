@@ -1,7 +1,6 @@
 from service.RegisterService import RegisterService
 from sql.sql_functions import get_department_list
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 
 
 class InfoWindowWidget(QWidget):
@@ -30,7 +29,6 @@ class InfoWindowWidget(QWidget):
 
         self.departmentlist = get_department_list()
         for d in self.departmentlist:
-            print(d)
             self.departmentEdit.addItem(d[0])
 
         form = QFormLayout()

@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QCoreApplication
+from sql.sql_functions import get_user_name_by_id
 
 
 class Ui_main_window(object):
@@ -66,4 +67,4 @@ class MainWidget(QtWidgets.QWidget):
 
     def set_user_id(self, user_id):
         self.user_id = user_id
-        self.ui.welcome_label.setText(self.ui.welcome_label.text() + str(self.user_id))
+        self.ui.welcome_label.setText(self.ui.welcome_label.text() + get_user_name_by_id(self.user_id))
